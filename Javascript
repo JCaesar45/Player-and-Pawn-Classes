@@ -1,0 +1,149 @@
+// Import classes from Python code (assuming classes are translated to JavaScript)
+class Player {
+  constructor() {
+    if (new.target === Player) {
+      throw new TypeError("Cannot instantiate abstract class Player directly");
+    }
+    this.moves = [];
+    this.position = { x: 0, y: 0 };
+    this.path = [{ x: 0, y: 0 }];
+  }
+
+  make_move() {
+    if (this.moves.length === 0) return this.position;
+    const move = this.moves[Math.floor(Math.random() * this.moves.length)];
+    this.position.x += move.dx;
+    this.position.y += move.dy;
+    this.path.push({ x: this.position.x, y: this.position.y });
+    updateDisplay();
+    drawGrid();
+    return { ...this.position };
+  }
+
+  level_up() {
+    throw new Error("Abstract method 'level_up' must be implemented");
+  }
+}
+
+class Pawn extends Player {
+  constructor() {
+    super();
+    this.moves = [
+      { dx: 0, dy: 1 },   // Up
+      { dx: 0, dy: -1 },  // Down
+      { dx: -1, dy: 0 },  // Left
+      { dx: 1, dy: 0 }    // Right
+    ];
+  }
+
+  level_up() {
+    // Add diagonals if not already added
+    const diagonals = [
+      { dx: -1, dy: 1 },  // Up-Left
+      { dx: 1, dy: 1 },   // Up-Right
+      { dx: -1, dy: -1 }, // Down-Left
+      { dx: 1, dy: -1 }   // Down-Right
+    ];
+
+    // Avoid duplicates
+    diagonals.forEach(diag => {
+      if (!this.moves.some(move => move.dx === diag.dx && move.dy === diag.dy)) {
+        this.moves.push(diag);
+      }
+    });
+    updateMovesDisplay();
+  }
+}
+
+// Instantiate pawn
+const pawn = new Pawn();
+
+// DOM Elements
+const moveBtn = document.getElementById('moveBtn');
+const levelUpBtn = document.getElementById('levelUpBtn');
+const resetBtn = document.getElementById('resetBtn');
+const positionSpan = document.getElementById('position');
+const movesList = document.getElementById('movesList');
+const pathList = document.getElementById('pathList');
+const canvas = document.getElementById('gridCanvas');
+const ctx = canvas.getContext('2d');
+
+// Canvas setup
+const gridSize = 20; // size of each cell in pixels
+const gridCount = 25; // number of cells in one direction
+canvas.width = gridSize * gridCount;
+canvas.height = gridSize * gridCount;
+
+// Initialize display
+function updateDisplay() {
+  positionSpan.textContent = `(${pawn.position.x}, ${pawn.position.y})`;
+  updatePathList();
+}
+
+function updateMovesDisplay() {
+  movesList.innerHTML = '';
+  pawn.moves.forEach((move, index) => {
+    const li = document.createElement('li');
+    li.textContent = `(${move.dx}, ${move.dy})`;
+    movesList.appendChild(li);
+  });
+}
+
+function updatePathList() {
+  pathList.innerHTML = '';
+  pawn.path.forEach(pos => {
+    const li = document.createElement('li');
+    li.textContent = `(${pos.x}, ${pos.y})`;
+    pathList.appendChild(li);
+  });
+}
+
+// Draw grid and pawn position
+function drawGrid() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Draw grid lines
+  ctx.strokeStyle = '#bdc3c7';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= gridCount; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * gridSize, 0);
+    ctx.lineTo(i * gridSize, canvas.height);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, i * gridSize);
+    ctx.lineTo(canvas.width, i * gridSize);
+    ctx.stroke();
+  }
+
+  // Draw pawn
+  const x = (pawn.position.x + Math.floor(gridCount / 2)) * gridSize;
+  const y = (gridCount / 2 - pawn.position.y) * gridSize;
+
+  ctx.fillStyle = '#e74c3c';
+  ctx.beginPath();
+  ctx.arc(x + gridSize / 2, y + gridSize / 2, gridSize * 0.3, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// Event Listeners
+moveBtn.addEventListener('click', () => {
+  pawn.make_move();
+});
+
+levelUpBtn.addEventListener('click', () => {
+  pawn.level_up();
+  updateMovesDisplay();
+});
+
+resetBtn.addEventListener('click', () => {
+  pawn.position = { x: 0, y: 0 };
+  pawn.path = [{ x: 0, y: 0 }];
+  updateDisplay();
+  drawGrid();
+});
+
+// Initial render
+updateDisplay();
+updateMovesDisplay();
+drawGrid();
