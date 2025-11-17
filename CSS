@@ -1,0 +1,124 @@
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+  color: #333;
+  padding: 20px;
+}
+
+/* Header styling */
+header {
+  text-align: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2.5em;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+}
+
+p {
+  font-size: 1.2em;
+  color: #34495e;
+}
+
+/* Controls styling */
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+button {
+  background-color: #4a90e2;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #357ab8;
+  transform: translateY(-2px);
+}
+
+/* Grid Canvas styling */
+.grid-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#gridCanvas {
+  background-color: #ecf0f1;
+  border-radius: 10px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+/* Status section styling */
+.status {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #ffffffcc; /* semi-transparent white */
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2, h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style: disc inside;
+  margin-bottom: 15px;
+}
+
+#movesList, #pathList {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-left: 20px;
+  background: #f7f9fa;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  button {
+    width: 80%;
+    max-width: 200px;
+  }
+}
