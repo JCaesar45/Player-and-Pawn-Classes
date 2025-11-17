@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pawn Movement Visualizer</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+  <h1>Pawn Movement Visualizer</h1>
+  <p>Watch the pawn explore a grid and unlock new moves!</p>
+</header>
+<div class="controls">
+  <button id="moveBtn">Make Move</button>
+  <button id="levelUpBtn">Level Up</button>
+  <button id="resetBtn">Reset</button>
+</div>
+<div class="grid-container">
+  <canvas id="gridCanvas"></canvas>
+</div>
+<div class="status">
+  <h2>Current Position: <span id="position">(0, 0)</span></h2>
+  <h3>Moves Available:</h3>
+  <ul id="movesList"></ul>
+  <h3>Path Traveled:</h3>
+  <ul id="pathList"></ul>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
